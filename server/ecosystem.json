@@ -1,0 +1,39 @@
+{
+  "apps": [{
+    "name": "lining-koa",
+    "script": "index.js",
+    "env": {
+      "COMMON_VARIABLE": "true"
+    },
+    "env_production": {
+      "NODE_ENV": "production"
+    }
+  }],
+  "deploy": {
+    "production": {
+      "user": "xgy",
+      "host": "47.92.69.80",
+      "port": "22",
+      "ref": "origin/deploy",
+      "repo": "https://gitee.com/sandtop/lining-koa.git",
+      "path": "/home/xgy/lining-koa",
+      "ssh_options": "StrictHostKeyChecking=no",
+      "post-deploy": "yarn && yarn run build && pm2 startOrRestart ecosystem.json --env production",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    },
+    "staging" : {
+      "user" : "xgy",
+      "host" : "47.92.69.80",
+      "ref"  : "origin/deploy",
+      "repo" : "https://gitee.com/sandtop/lining-koa.git",
+      "path" : "/home/xgy/lining-koa",
+      "ssh_options": ["StrictHostKeyChecking=no", "PasswordAuthentication=no"],
+      "post-deploy": "yarn && yarn run build && pm2 startOrRestart ecosystem.json --env dev",
+      "env"  : {
+        "NODE_ENV": "staging"
+      }
+    }
+  }
+}

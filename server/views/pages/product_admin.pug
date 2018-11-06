@@ -1,0 +1,80 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      form.form-horizontal(id='uploadForm', method='post', action='/admin/product', encType='multipart/form-data')
+        if product
+          input(name='_id', type='hidden', value=product._id)
+        .form-group
+          label.col-md-6.control-label(for="inputCategory") 分类选择
+          if categories
+            each cat in categories
+              .form-check-inline
+                label
+                  if product.category
+                    input(name='categoryId', type='radio', value=cat._id, checked=cat._id.toString()==product.category.toString())
+                    | &nbsp;&nbsp; #{cat.name}
+                  else
+                    input(name='categoryId', type='radio', value=cat._id, checked=cat.name.toString()==='默认')
+                    | &nbsp;&nbsp;#{cat.name}
+        .form-group
+          label.col-md-10.control-label(for="inputCategory") 其它分类
+          .col-md-10
+            input#inputCategory.form-control(name="categoryName", type="text", value=product.categoryName)
+        if product._id === undefined
+          .form-group
+            lable.col-sm-10.control-lable 选择 xlsx 文件
+            .col-sm-10
+              input.form-control-file(id='xlsxfile', name='xlsxfile', type='file', multiple)
+        else
+          .form-group
+            label.col-md-10.control-label(for="inputCount") 商品数量
+            .col-md-10
+              input#inputCount.form-control(name="count", type="text", value=product.count)
+          .form-group
+            label.col-md-10.control-label(for="inputTitle") 商品名字
+            .col-md-10
+              input#inputTitle.form-control(name="color", type="text", value=product.color)
+          .form-group
+            label.col-md-10.control-label(for="inputStyle") 鞋类
+            .col-md-10
+              input#inputStyle.form-control(name="style", type="text", value=product.style)
+          .form-group
+            label.col-md-10.control-label(for="inputSex") 性别
+            .col-md-10
+              input#inputSex.form-control(name="sex", type="text", value=product.sex)
+          .form-group
+            label.col-md-10.control-label(for="inputSeason") 发布季
+            .col-md-10
+              input#inputSeason.form-control(name="season", type="text", value=product.season)
+          .form-group
+            label.col-md-10.control-label(for="inputSize") 尺码
+            .col-md-10
+              input#inputSize.form-control(name="size", type="text", value=product.size)
+          .form-group
+            label.col-md-10.control-label(for="inputCardPrice") 吊牌价格
+            .col-md-10
+              input#inputCardPrice.form-control(name="cardPrice", type="text", value=product.cardPrice)
+          //- .form-group
+          //-   label.col-md-10.control-label(for="inputImgFile") 海报上传
+          //-   .col-md-10
+          //-     input#inputImgFile.form-control(name="uploadPoster", type="file")
+          .form-group
+            label.col-md-10.control-label(for="inputTaobaoPrice") 淘宝价格
+            .col-md-10
+              input#inputTaobaoPrice.form-control(name="taobaoPrice", type="text", value=product.taobaoPrice)
+          .form-group
+            label.col-md-10.control-label(for="inputUsSize") 美码
+            .col-md-10
+              input#inputUsSize.form-control(name="usSize", type="text", value=product.usSize)
+          .form-group
+            label.col-md-10.control-label(for="inputComment") 备注
+            .col-md-10
+              input#inputComment.form-control(name="comment", type="text", value=product.comment)
+
+
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-primary(type='submit' value='Upload') 录入
+    a(href="https://pan.baidu.com/s/1C3--_X3G_8pl3pHlIbqF2Q") 模板下载

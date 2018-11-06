@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      form.form-horizontal(id='uploadForm', method='post', action='/admin/slideShow', encType='multipart/form-data')
+        if slideShow
+          input(name='_id', type='hidden', value=slideShow._id)
+
+
+          .form-group
+            label.col-md-10.control-label(for="inputTitle") 标题
+            .col-md-10
+              input#inputTitle.form-control(name="title", type="text", value=slideShow.color)
+          .form-group
+            label.col-md-10.control-label(for="inputUrl") 跳转链接(如果没有可以不填)
+            .col-md-10
+              input#inputUrl.form-control(name="url", type="text", value=slideShow.style)
+          .form-group
+            lable.col-sm-10.control-lable 选择轮播图片文件
+            .col-sm-10
+              input.form-control-file(id='imgFile', name='imgFile', type='file')
+        .form-group
+          .col-sm-offset-2.col-sm-10
+            button.btn.btn-primary(type='submit' value='Upload') 录入

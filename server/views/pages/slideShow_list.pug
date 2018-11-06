@@ -1,0 +1,67 @@
+extends ../layout
+
+block content
+  .container
+    .row
+      table.table.table-hover.table-bordered
+        thead
+          tr
+            th 图片
+            th 标题
+            th 跳转链接
+            th 后缀
+            th 日期
+            //- th 修改
+            //- th 详情页
+            th 删除
+        tbody
+          if slideShows && slideShows.length
+            each item in slideShows
+              tr(class='item-id-' + item._id)
+                td
+                  //- if item.category
+                  //-   | #{item.category.name}
+                  img(src='/img/' + item.img, width=100)
+                td #{item.title}
+                //- td
+                  //- if item.img.indexOf('http') > -1
+                  //-   img(src=item.img, width=100)
+                  //- else
+                  //-   img(src='/upload/img/' + item.img, width=100)
+                td #{item.url}
+                td #{item.ext}
+                td #{moment(item.createdAt).format('MM/DD/YYYY')}
+
+                td
+                  button.btn.btn-danger.del(data-id=item._id, type='button') 删除
+    button.btn.btn-primary.add(type='button') 添加图片
+    div(id='div1')
+  script.
+    $(function() {
+      $('.del').click(function(e) {
+        var target = $(e.target)
+        var id = target.data('id')
+        var tr = $('.item-id-' + id)
+
+        $.ajax({
+          type: 'DELETE',
+          url: '/admin/SlideShow?id=' + id
+        })
+        .done(function(results) {
+          if (results.success) {
+            if (tr.length >= 1) {
+              tr.remove()
+            }
+          }
+        })
+      })
+      $('.add').click(function(e) {
+        var target = $(e.target)
+        $.ajax({
+          type: 'GET',
+          url: '/admin/SlideShow'
+        }).done(function(results){
+          $("#div1").html(results);
+        })
+      })
+    })

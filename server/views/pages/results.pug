@@ -1,0 +1,97 @@
+extends ../layout
+
+block content
+  .container
+    .panel
+      .panel-heading
+        h3 #{keyword}
+      .row
+          //- each item in products
+          //- .col-md-3
+          //-   .card(style='height: 410px;margin-bottom: 18px;')
+          //-     a(href='/product/' + item._id, style='display: block;height: 340px;overflow: hidden;')
+          //-       //- if item.poster.indexOf('http') > -1
+          //-       //-   img(src=item.poster, alt=item.title, style='width: 100%')
+          //-       //- else
+          //-       img(src='/upload/' + item.poster, alt=item.title, style='width: 100%')
+          //-     .card-body
+          //-       p.card-text
+          //-         a(href='/product/' + item._id) #{item.title}
+
+          table.table.table-hover.table-bordered
+            thead
+              tr
+                th 图片
+                th 款号
+                th 数量
+                th 颜色
+                th 性别
+                th 发布季
+                th 尺码
+                th 吊牌价
+                th 淘宝价(包邮)
+                th 美码
+                th 备注
+                th 日期
+                th 修改
+                th 详情页
+                th 删除
+            tbody
+              if products && products.length
+                each item in products
+                  tr(class='item-id-' + item._id)
+                    td
+                      //- if item.category
+                      //-   | #{item.category.name}
+                      img(src='/upload/img/' + item.img, width=100)
+                    td #{item.styleNumber}
+                    //- td
+                      //- if item.img.indexOf('http') > -1
+                      //-   img(src=item.img, width=100)
+                      //- else
+                      //-   img(src='/upload/img/' + item.img, width=100)
+                    td #{item.count}
+                    td #{item.color}
+                    td #{item.sex}
+                    td #{item.season}
+                    td #{item.size}
+                    td #{item.cardPrice}
+                    td #{item.taobaoPrice}
+                    td #{item.usSize}
+                    td #{item.comment}
+                    td #{moment(item.createdAt).format('MM/DD/YYYY')}
+                    td: a(href='/admin/product/update/' + item._id, target='_blank') 修改
+                    td: a(href='/product/' + item._id, target='_blank') 查看
+                    td
+                      button.btn.btn-danger.del(data-id=item._id, type='button') 删除
+    ul.pagination
+      - for (let i = 0; i < totalPage; i++) {
+        - if (currentPage === (i + 1)) {
+            li.active
+              span #{currentPage} &nbsp;&nbsp;&nbsp;&nbsp;
+        - }
+        - else {
+            li
+              a(href='/results?' + query + '&p=' + i) #{i + 1} &nbsp;&nbsp;&nbsp;&nbsp;
+        - }
+      - }
+  script.
+      $(function() {
+        $('.del').click(function(e) {
+          var target = $(e.target)
+          var id = target.data('id')
+          var tr = $('.item-id-' + id)
+
+          $.ajax({
+            type: 'DELETE',
+            url: '/admin/product?id=' + id
+          })
+          .done(function(results) {
+            if (results.success) {
+              if (tr.length >= 1) {
+                tr.remove()
+              }
+            }
+          })
+        })
+      })

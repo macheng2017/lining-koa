@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>李宁</title>
+    <link href="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div id="app" class="row">
+        <div class="card">
+          <h6 class="card-header">上传</h6>
+          <div class="card-body">
+          <a href="https://pan.baidu.com/s/1vz3nqRskeUpLvwEyQODZ6Q">下载模板</a>
+          <form ref='uploadForm' 
+            id='uploadForm' 
+            action='/upload'
+            method='post' 
+            encType="multipart/form-data">
+            <div class="form-group">
+              <label for="xlsxfile">选择 xlsx 文件</label>
+              <input type="file" class="form-control-file" name="xlsxfile" id="xlsxfile"/>
+            </div>
+            <input type='submit' class="btn btn-primary" value='上传' />
+          </form> 
+          </div>
+        </div>
+        <div class="card">
+          <h6 class="card-header">列表</h6>
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">image</th>
+                  <th scope="col">style</th>
+                  <th scope="col">count</th>
+                  <th scope="col">color</th>
+                  <th scope="col">season</th>
+                  <th scope="col">size</th>
+                  <th scope="col">cardprice</th>
+                  <th scope="col">taobaoprice</th>
+                  <th scope="col">warehouse</th>
+                  <th scope="col">comment</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(var i = 0; i < docs.length; i++) { 
+                  let item = docs[i];
+                %>
+                <tr>
+                  <td>
+                  <img style="width: 5rem; height: 5rem" src="<%= item.image %>" alt="image">
+                  </td>
+                  <td><%= item.style %></td>
+                  <td><%= item.count %></td>
+                  <td><%= item.color %></td>
+                  <td><%= item.season %></td>
+                  <td><%= item.size %></td>
+                  <td><%= item.cardprice %></td>
+                  <td><%= item.taobaoprice %></td>
+                  <td><%= item.warehouse %></td>
+                  <td><%= item.comment %></td>
+                </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
