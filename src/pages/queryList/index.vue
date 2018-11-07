@@ -83,9 +83,9 @@ export default {
     },
     // 向剪贴板中写入信息
     async setClip(data) {
-      let str = `款号: ${data.styleNumber} 价格: ${
-        data.taobaoPrice
-      } 尺码: ${data.size} 库存: ${data.count}`
+      let str = `款号: ${data.styleNumber} 价格: ${data.taobaoPrice} 尺码: ${
+        data.size
+      } 库存: ${data.count}`
       wx.setClipboardData({
         data: str
       })

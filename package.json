@@ -20,6 +20,7 @@
     "lodash": "^4.17.10",
     "log4js": "^3.0.2",
     "mpvue": "^1.0.11",
+    "mpvue-img-load": "^1.0.0",
     "mpvue-picker": "^2.0.3",
     "mpvue-zanui": "^1.0.3",
     "net": "^1.0.2",

@@ -3,10 +3,12 @@
     <div class="zan-panel">
       <div class="zan-card">
         <div class="zan-card__thumb">
-          <image class="zan-card__img"
+          <!-- <image class="zan-card__img"
                  :src="imgSrc"
                  mode="aspectFit">
-          </image>
+          </image> -->
+          <image class="zan-card__img" v-if="imgSrc" :src="imgSrc" />
+          <img-load ref="imgLoad"></img-load>
         </div>
         <div class="zan-card__detail">
           <div class="zan-card__detail-row">
@@ -38,32 +40,52 @@
 </template>
 
 <script>
+import imgLoad from 'mpvue-img-load'
 export default {
   data() {
     return {
-      data: {}
+      data: {},
+      imgSrc: ''
     }
   },
   props: ['item', 'imageCDN', 'defImg'],
-  computed: {
-    imgSrc() {
-      return this.item.img === undefined
-        ? this.imageCDN + '/img/' + this.defImg
-        : this.imageCDN + '/upload/img/' + this.item.img
-    }
+  // computed: {
+  //   imgSrc() {
+  //     return this.imageCDN + '/img/' + this.defImg
+  //     // this.imageCDN + '/upload/img/' + this.item.img
+  //   }
+  // },
+  components: {
+    imgLoad
   },
   methods: {
     // 向剪贴板中写入信息
     async setClip(data) {
-      let str = `款号: ${data.styleNumber} 价格: ${
-        data.taobaoPrice
-      } 尺码: ${data.size} 库存: ${data.count}`
+      let str = `款号: ${data.styleNumber} 价格: ${data.taobaoPrice} 尺码: ${
+        data.size
+      } 库存: ${data.count}`
       wx.setClipboardData({
         data: str
       })
       // 震动下表示完成
       wx.vibrateShort()
+    },
+    loadImage() {
+      // 加载缩略图 80x50 3KB
+      // this.imgSrc = this.imageCDN + '/img/' + this.defImg
+      this.imgSrc = '../../static/img/default.jpg'
+      // 原图 3200x2000 1.6MB
+      const imgUrlOriginal = this.imageCDN + '/upload/img/' + this.item.img
+      // 同时对原图进行预加载，加载成功后再替换
+      this.$refs.imgLoad.load(imgUrlOriginal, (err, data) => {
+        if (!err) {
+          this.imgSrc = data.src
+        }
+      })
     }
+  },
+  mounted() {
+    this.loadImage()
   }
 }
 </script>
