@@ -84,6 +84,9 @@ export default {
       })
     }
   },
+  onload() {
+    this.imgSrc = ''
+  },
   mounted() {
     this.loadImage()
   }
